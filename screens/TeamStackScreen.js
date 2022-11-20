@@ -9,7 +9,7 @@ export default function TeamStackScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Team"
+        name="Our Team"
         component={TeamScreen}
         options={{
           headerStyle: { backgroundColor: "#1FA2FF" },

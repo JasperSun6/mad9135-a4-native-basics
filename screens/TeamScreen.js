@@ -1,53 +1,54 @@
 import React from "react";
-import { StyleSheet, View, Text, FlatList, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useGlobalContext } from "../context/GlobalData";
 
 export default function TeamScreen({ navigation }) {
   const { teamList } = useGlobalContext();
-  console.log("teamList", teamList);
+
+  const teamItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate({
+            name: "Details",
+            params: { item: item },
+            merge: true,
+          });
+        }}
+      >
+        <View key={item.id} style={styles.team}>
+          <Text style={styles.name}>
+            {item.first_name} {item.last_name}
+          </Text>
+          <View style={styles.info}>
+            <Text style={styles.email}>Email: {item.email}</Text>
+            <Text>Phone: {item.phone_number}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView edges={["right", "bottom", "left"]} style={styles.container}>
-      <View>
-        <Text style={styles.title}>Our Team</Text>
-      </View>
-      <View>
-        <FlatList
-          data={teamList}
-          renderItem={({ item }) => (
-            <View key={item.id} style={styles.team}>
-              <View style={styles.name}>
-                <Text style={styles.fName}>{item.first_name}</Text>
-                <Text>{item.last_name}</Text>
-              </View>
-              <View style={styles.info}>
-                <Text style={styles.email}>{item.email}</Text>
-                <Text>{item.phone_number}</Text>
-              </View>
-              <Button
-                title="Show Details"
-                onPress={() => {
-                  navigation.navigate("Details", {
-                    item: item,
-                    id: item.id,
-                    first_name: item.first_name,
-                  });
-                }}
-              />
-            </View>
-          )}
-        />
-      </View>
+      <Text style={styles.title}>Team members</Text>
+      <FlatList data={teamList} renderItem={teamItem} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     paddingBottom: 50,
+    alignItems: "center",
   },
 
   title: {
@@ -63,16 +64,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     marginVertical: 10,
-    marginHorizontal: 20,
+    width: 350,
     alignItems: "center",
   },
 
   name: {
     flexDirection: "row",
-  },
-
-  fName: {
-    paddingRight: 5,
+    fontSize: 16,
+    fontWeight: "bold",
   },
 
   info: {

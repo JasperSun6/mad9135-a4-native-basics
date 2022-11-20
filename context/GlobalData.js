@@ -9,8 +9,6 @@ const GlobalProvider = ({ children }) => {
     const res = await fetch("https://random-data-api.com/api/v2/users?size=5");
     const data = await res.json();
     setTeamList(data);
-
-    console.log("data", data);
   }
 
   useEffect(() => {
