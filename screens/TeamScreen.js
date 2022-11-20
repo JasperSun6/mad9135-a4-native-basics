@@ -1,14 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useGlobalContext } from "../context/GlobalData";
 
-export default function TeamScreen() {
+export default function TeamScreen({ navigation }) {
   const { teamList } = useGlobalContext();
   console.log("teamList", teamList);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={["right", "bottom", "left"]} style={styles.container}>
       <View>
         <Text style={styles.title}>Our Team</Text>
       </View>
@@ -16,7 +16,7 @@ export default function TeamScreen() {
         <FlatList
           data={teamList}
           renderItem={({ item }) => (
-            <View style={styles.team}>
+            <View key={item.id} style={styles.team}>
               <View style={styles.name}>
                 <Text style={styles.fName}>{item.first_name}</Text>
                 <Text>{item.last_name}</Text>
@@ -25,6 +25,16 @@ export default function TeamScreen() {
                 <Text style={styles.email}>{item.email}</Text>
                 <Text>{item.phone_number}</Text>
               </View>
+              <Button
+                title="Show Details"
+                onPress={() => {
+                  navigation.navigate("Details", {
+                    item: item,
+                    id: item.id,
+                    first_name: item.first_name,
+                  });
+                }}
+              />
             </View>
           )}
         />
@@ -35,23 +45,25 @@ export default function TeamScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingBottom: 50,
   },
 
   title: {
     fontSize: 25,
     fontWeight: "bold",
     textAlign: "center",
+    marginVertical: 20,
   },
 
   team: {
-    borderWidth: 1,
+    borderWidth: 0.75,
     borderColor: "black",
     borderRadius: 10,
     padding: 15,
     marginVertical: 10,
+    marginHorizontal: 20,
     alignItems: "center",
   },
 
