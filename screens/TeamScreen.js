@@ -39,7 +39,12 @@ export default function TeamScreen({ navigation }) {
   return (
     <SafeAreaView edges={["right", "bottom", "left"]} style={styles.container}>
       <Text style={styles.title}>Team members</Text>
-      <FlatList data={teamList} renderItem={teamItem} />
+      <FlatList
+        data={teamList}
+        renderItem={teamItem}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 }
